@@ -1,0 +1,11 @@
+from django.conf.urls import url
+from . import views
+
+urlpatterns = [
+    url(r'^$', views.first_article, name='first_article'),
+   # url(r'^first_article/', views.first_article, name='first_article'),
+    #    url(r'^second_article/', views.second_article, name='second_article'),
+    url(r'^$', views.pieChart, name='pieChart'),
+    url(r'^$', views.get_csv, name='get_csv'),
+    url(r'^$', views.linkpapers, name='linkpapers'),
+]
