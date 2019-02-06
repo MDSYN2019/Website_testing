@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url, include
+#from django.conf.urls.defaults import *                                                                                                             
+from django.views.generic.base import TemplateView
+from django.conf.urls.static import static
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+	url('ScienceBlog/', include(('ScienceBlog.urls', 'ScienceBlog'), namespace = 'ScienceBlog')),
 ]

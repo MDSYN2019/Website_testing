@@ -11,8 +11,8 @@ from .models import Science
 from .models import linktopapers
  
 # django-rest-pandas - still unused 
-from rest_pandas import PandasSimpleView
-import pandas as pd 
+#from rest_pandas import PandasSimpleView
+#import pandas as pd 
 
 # HTML & CSS loader
 from django.template import loader
