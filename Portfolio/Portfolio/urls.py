@@ -26,4 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 	url('Homepage/', include(('Homepage.urls','Homepage'),  namespace = 'Homepage')),	
 	url('ScienceBlog/', include(('ScienceBlog.urls', 'ScienceBlog'), namespace = 'ScienceBlog')),
+	url('Contact/', include(('Contact.urls', 'Contact'), namespace = 'Contact')),
 ]

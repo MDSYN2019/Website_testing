@@ -47,6 +47,8 @@ INSTALLED_APPS = [
 	'ScienceBlog',
 	'Homepage',
 	'latexify',
+	'Contact',
+	
 ]
 
 
