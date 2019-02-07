@@ -24,5 +24,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+	url('Homepage/', include(('Homepage.urls','Homepage'),  namespace = 'Homepage')),	
 	url('ScienceBlog/', include(('ScienceBlog.urls', 'ScienceBlog'), namespace = 'ScienceBlog')),
 ]

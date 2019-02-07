@@ -25,7 +25,14 @@ SECRET_KEY = 'r2#r3ruk2a#hf$$3&s821#+27ay7pr3it2+-13h-%$6h#hm!)5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = []
+
+STATICFILES_FINDERS = (
+        'django.contrib.staticfiles.finders.FileSystemFinder',
+        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+        # 'django.contrib.staticfiles.finders.DefaultStorageFinder',                                                                                  
+   )
 
 
 # Application definition
@@ -38,7 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'ScienceBlog',
+	'Homepage',
+	'latexify',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,6 +91,11 @@ DATABASES = {
     }
 }
 
+PROJECT_PATH = '/home/oohnohnoh1/Desktop/GIT/Website_testing/Portfolio'
+TEMPLATE_DIRS = (
+        PROJECT_PATH + '/templates/',
+    )
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -118,4 +133,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')

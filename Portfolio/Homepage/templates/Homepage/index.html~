@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title> Homepage of Sang Young Noh </title>
+    <meta charset="utf-8">  
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'frame/css/layout.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- JQuery libraries - some of these need updating -->
+    <script src="{% static 'frame/js/jquery-1.8.2.min.js' %}"></script>
+    <script src="{% static 'frame/js/cufon-yui.js' %}"></script>
+    <script src="{% static 'frame/js/cufon-replace.js' %}"></script>
+    <script src="{% static 'frame/js/Myriad_Pro_300.font.js' %}"></script>
+    <script src="{% static 'frame/js/Myriad_Pro_400.font.js' %}"></script> 
+    <script src="{% static 'frame/js/d3.v3.min.js' %}"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <style>
+      
+      /* Remove the navbar's default margin-bottom and rounded borders */
+      .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+      }
+      
+      /* Add a gray background color and some padding to the footer */
+      footer {
+      background-color: #f2f2f2;
+	padding: 25px;
+      }
+      
+    </style>
+    
+  </head>
+  
+  <body>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="/Home/">Homepage</a>
+	    </div>
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	      <ul class="nav navbar-nav">
+		<li class="active"><a href="#">Home</a></li>
+		<li><a href="/ScienceBlog/"> Scientific Blog </a></li>
+		<li><a href="/Image/"> Images </a></li>
+		<li><a href="/AboutMe/"> About me</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+
+<div class="container-fluid bg-3 text-center">
+  <h3> Scientific Portfolio and work in progress - Sang Young Noh</h3><br>
+  <div class="row">
+    <div class="col-sm-3">
+      <p> Current location</p>
+      <a href = "http://www.visitlondon.com/">
+	<img src="{% static 'frame/images/aw5T3Np.jpg' %}" class="img-responsive" style="width:100%" alt="Image" height = "400" width = "300">
+      </a>
+    </div>
+    <div class="col-sm-3">
+      <p> Scientific work </p>
+      <img src="{% static 'frame/images/fullereneembedd.png' %}" class="img-responsive" style="width:100%" alt="Image" height = "300" width = "200">
+    </div>
+    <div class="col-sm-3">
+      <p> Python scientific work</p>
+      <a href = "http://www.mdanalysis.org/">
+      <img src="{% static 'frame/images/mdanalysis_placeholder.png' %}" class="img-responsive" style="width:100%" alt="Image">
+      </a>
+    </div>
+    <div class="col-sm-3">
+      <p> Other </p>
+      <a href = "https://en.wikipedia.org/wiki/Janus_particles"> 
+      <img src="{% static 'ScienceBlog/images/JANUS_single.png' %}" class="img-responsive" style="width:100%" alt="Image">
+      </a>
+    </div>
+  </div>
+</div><br>
+
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>Introduction</h1>
+    <p>
+      I am a newly graduating PhD candidate from the University of Warwick, working on the simulations of coarse-grained (CG) bilayers
+      with multiple types of nanoparticles. I am currently in the middle of transisitioning from that role to working on a NLP/machine
+      learning type problems, of which I will elaborate with time. In the meantime, I've made avaliable some parts of the research I've
+      done so far, other work in progress, and general observations about the science at hand. 
+    </p>
+  </div>
+</div>
+
+
+</body>
+</html>
+>

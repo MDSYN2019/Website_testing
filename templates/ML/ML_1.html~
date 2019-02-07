@@ -1,0 +1,11 @@
+<article>
+  
+<h2>{% paper.name %} </h2>
+
+<section>
+  <h3> Neural network programming </h3>
+  <ul>
+  </ul>
+</section>
+
+</article>

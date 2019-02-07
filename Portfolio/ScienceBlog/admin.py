@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.contrib import admin
+from .models import Science, Subfield, linktopapers
 
-# Register your models here.
+# Registering the models
+admin.site.register(Science)
+admin.site.register(Subfield)
+admin.site.register(linktopapers)

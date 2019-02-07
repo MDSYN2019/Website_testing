@@ -1,0 +1,39 @@
+{% extends parent_template|default"base.html" %}
+
+{% block title %}
+{{ block.super }} - create Tag
+{% endblock %}
+
+<!-- In the content block, we create an HTML block, pointing it to submit data to a URL pattern via the url  
+      template tag. We create this URL pattern and the associated view in the next chapter. 
+
+      We also notably specify that the method form will use is "post", signifying that the form 
+      will request the page and submit data via the HTTP POST verb 
+-->
+
+{% block content %}
+<form
+   action = "{% 'organizer_tag_create' %}"
+   methods = "post">
+  {% csrf_token %}
+  <p>
+    <label for="id_name">
+      <input id="id_name" maxlength="31"
+	     name="name" type="text" />
+  </p>
+
+  <p>
+    <label for="id_slug"> Slug: </label>
+    <input id="id_slug" maxlength="31"
+	   name="slug" type="text" />
+    <span class = "helptext">
+      A label for URL config
+    </span>
+  </p>
+  <button type = "submit">
+    Create tag </button>
+</form>
+{% endblock %}
+
+    
+    
