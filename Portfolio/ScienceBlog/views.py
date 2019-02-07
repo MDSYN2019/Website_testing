@@ -19,7 +19,6 @@ from .models import linktopapers
 
 from django.template import loader
 from django.contrib.staticfiles.storage import staticfiles_storage
-
 # Importing forms from forms.py
 
 from .forms import NameForm 

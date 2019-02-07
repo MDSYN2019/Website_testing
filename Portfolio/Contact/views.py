@@ -12,13 +12,14 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 
 from django.http.response import HttpResponse
+from django.template import loader
+from django.contrib.staticfiles.storage import staticfiles_storage
 
-def homepage(request):
-    return HttpResponse("Hello (again) World")
-"""
-def AuthorView(generic.ListView):
-    template_name = 'contact/a.html'
-    context_object_name = 'all_authors'
-    def get_queryset(self):
-        return Author.objects.all()
-"""
+def newpage(request):
+    """Reference to the ieee.html """
+    template = loader.get_template('Contact/new.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
+
+
