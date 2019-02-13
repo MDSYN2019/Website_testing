@@ -9,35 +9,25 @@
     {% load static %}
     {% include 'latexify/stylesheets.html' %}
     <head lang="en">
-    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
-    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.csv.js"></script>
-    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.time.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>	
-    <!-- REACT.JS -->
-    <script src="https://fb.me/react-15.0.1.js"></script>
-    <script src="https://fb.me/react-dom-15.0.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-    <script type="text/javascript" src="{% static 'ScienceBlog/js/papers.js' %}" charset = "utf-8"></script>
+    <script type="text/javascript" src="{% static 'Contact/js/papers.js' %}" charset = "utf-8"></script>
+
     <!-- External JS -->
-    <script type="text/javascript" src="{% static 'ScienceBlog/js/bard3.js' %}" charset = "utf-8"></script>
+    <script type="text/javascript" src="{% static 'Contact/js/bard3.js' %}" charset = "utf-8"></script>
+
     <!-- RIOT -->
     <script type="text/javascript" src="{% static 'riot/riot.js' %}" charset = "utf-8"></script>
+
     <!-- CSS templates --> 
-    <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/skeleton.css' %}" media = "all" />
-    <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/normalize.css' %}" media = "all" />    
+    <link rel="stylesheet" type="text/css" href="{% static 'Contact/css/skeleton.css' %}" media = "all" />
+    <link rel="stylesheet" type="text/css" href="{% static 'Contact/css/normalize.css' %}" media = "all" />    
+
     <!-- MATHDEMO -->
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <meta name="generator" content="TeX4ht (http://www.tug.org/tex4ht/)">
     <meta name="originator" content="TeX4ht (http://www.tug.org/tex4ht/)">
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-    </script>
     <script type="text/javascript"
 	    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
-    <link rel="stylesheet" type="text/css" href="{% static 'django_pygments/django_pygments/css/pygments_default.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'django_pygments/django_pygments/css/demo.css' %}" />
     
     <!-- bower -->
     <!-- Additional CSS -->

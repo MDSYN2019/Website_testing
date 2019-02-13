@@ -3,5 +3,5 @@ from . import views
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    url('new', views.newpage, name='newpage'),
+    url('', views.newpage, name='newpage'),
 ]
