@@ -15,6 +15,9 @@ from django.http.response import HttpResponse
 from django.template import loader
 from django.contrib.staticfiles.storage import staticfiles_storage
 
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 def newpage(request):
     """Reference to the ieee.html """
     template = loader.get_template('Contact/new.html')
