@@ -42,7 +42,6 @@ class linktopapers(models.Model):
     webpage = models.CharField(max_length=200)
 
 # Upload files model
-
 class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=50)
     file = forms.FileField()
