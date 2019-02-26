@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import PostListView # new import
+from .views import PostListView, PostDetailView # new import
 from . import views
 
 urlpatterns = [

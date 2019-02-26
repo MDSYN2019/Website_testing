@@ -1,10 +1,9 @@
 import os 
 import csv # involved in loading a csv file
 import datetime
+
 from django.shortcuts import render
-from django.views.generic import ListView
-
-
+from django.views.generic import ListView, DetailView
 from django.core.paginator import Paginator
 from django.http import HttpResponse # Standard website response you want
 from django.http import HttpResponseNotFound
@@ -14,18 +13,47 @@ from django.http import HttpResponseRedirect
 # from django.http import Http404 # 404 error library
 
 # import database from .models
+
 from .models import Science 
 from .models import linktopapers
 from .models import Post # NEW
 
 # HTML & CSS loader
+
 from django.template import loader
 from django.contrib.staticfiles.storage import staticfiles_storage
+
 # Importing forms from forms.py
+
 from .forms import NameForm 
 from .forms import UploadFileForm
 
-# Part of the file upload tutorial
+def first_article(request):
+    """Reference to the article.html """
+    template = loader.get_template('ScienceBlog/main_blog.html')
+    context = {}
+    context['posts'] = Post.objects.all()
+    return HttpResponse(template.render(context, request))
+
+class PostListView(ListView): # Connected to first_article
+	"""
+	This will tell our ListView what model to query 
+	"""
+	model = Post 
+	template_name = 'ScienceBlog/main_blog.html' # <app>/<model>_<viewtype>.html 
+	context_object_name = 'posts' #
+	ordering = ['data_posted']
+
+class PostDetailView(DetailView): # Connected to first_article
+	"""
+	This will tell our ListView what model to query 
+	"""
+	model = Post 
+	
+	
+	
+## All functions beneath PostListView will need to be edited separately
+
 
 def Chemiinformatics1(request):
     """Reference to the ieee.html """
@@ -50,23 +78,6 @@ def replacement(request):
     template = loader.get_template('ScienceBlog/replacement.html')
     context = {}
     return HttpResponse(template.render(context, request))
-
-# First article
-## 
-def first_article(request):
-    """Reference to the article.html """
-    template = loader.get_template('ScienceBlog/main_blog.html')
-    context = {}
-    context['posts'] = Post.objects.all()
-    return HttpResponse(template.render(context, request))
-
-class PostListView(ListView):
-	"""
-	This will tell our ListView what model to query 
-	"""
-	model = Post 
-	template_name = 'ScienceBlog/main_blog.html' # <app>/<model>_<viewtype>.html 
-	context_object_name = 'posts'
 
 	
 # d3 multiplot
