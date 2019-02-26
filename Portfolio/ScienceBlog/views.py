@@ -65,10 +65,11 @@ class PostListView(ListView):
 	This will tell our ListView what model to query 
 	"""
 	model = Post 
+	template_name = 'ScienceBlog/main_blog.html' # <app>/<model>_<viewtype>.html 
+	context_object_name = 'posts'
 
-##
+	
 # d3 multiplot
-
 def multiplot(request):
     """Reference to the article.html """
     template = loader.get_template('ScienceBlog/multiplot.html')
@@ -135,22 +136,17 @@ def paper1_data(request):
     col1 = []
     col2 = []
     col3 = []
-
+	
     # Find the file path to
     # csv files we want to work with 
-
     file_path = os.path.join(settings.STATIC_ROOT, '/var/www/staticfiles/ScienceBlog/csv/morley.csv')
     cereal_path = os.path.join(settings.STATIC_ROOT, 'ScienceBlog/csv/cereal.csv')
-    
     with open(file_path) as f:
-
-        reader = csv.reader(f, delimiter=',')
-        
+        reader = csv.reader(f, delimiter=',')        
         for row in reader:
             col1.append(row[0])
             col2.append(row[1])
             col3.append(row[2])
-
     # Now, zip the values
     list_of_values = zip(col1,col2,col3)    
     all_Science = Science.objects.all()
@@ -235,7 +231,7 @@ def linkpapers(request):
 
 def pieChart(request):
     """
-
+	
     """
     template = loader.get_template('ScienceBlog/JEarticle.html')
     xdata = ["Apple", "Apricot", "Avocado", "Banana", "Boysenberries", "Blueberries", "Dates", "Grapefruit", "Kiwi", "Lemon"]
