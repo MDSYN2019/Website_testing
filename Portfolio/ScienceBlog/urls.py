@@ -1,8 +1,9 @@
 from django.conf.urls import url
+from .views import PostListView # new import
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.first_article, name='first_article'),
+    url(r'^$', PostListView.as_view(), name='first_article'),
     url(r'^Jarzynski_article/$', views.paper1_data, name='Jarzynski_article'), # /ScienceBlog/Jarzynski_article/ 
     url(r'^Jarzynski_article/multiplot/$', views.multiplot, name='multiplot'),
     url(r'^Jarzynski_article/gridplot/$', views.gridplot, name='gridplot'),
