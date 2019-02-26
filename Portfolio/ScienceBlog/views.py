@@ -1,6 +1,6 @@
 import os 
 import csv # involved in loading a csv file
-import datetime # ...
+import datetime
 
 from django.shortcuts import render
 from django.core.paginator import Paginator
