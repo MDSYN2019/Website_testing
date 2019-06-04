@@ -5,8 +5,8 @@ import datetime
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.core.paginator import Paginator
-from django.http import HttpResponse # Standard website response you want
 from django.http import HttpResponseNotFound
+from django.http import HttpResponse # Standard website response you want
 from django.conf import settings
 from django.http import HttpResponseRedirect
 
