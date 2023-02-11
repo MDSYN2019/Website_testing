@@ -1,0 +1,495 @@
+{% load latexify %}
+{% load nvd3_tags %}
+
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <title>Comparison of Umbrella Sampling and Steered Molecular Dynamics for computing the free energy
+    profiles of toluene and fullerene through lipid bilayers</title>
+    <meta charset="utf-8">
+    
+    {% load static %}
+    {% include 'latexify/stylesheets.html' %}
+    {% include_chart_jscss %}
+    
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.csv.js"></script>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.time.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>	
+
+    <!-- REACT.JS -->
+    <script src="https://fb.me/react-15.0.1.js"></script>
+    <script src="https://fb.me/react-dom-15.0.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script type="text/javascript" src="{% static 'ScienceBlog/js/papers.js' %}" charset = "utf-8"></script>
+
+    <!-- External JS -->
+    <script type="text/javascript" src="{% static 'ScienceBlog/js/bard3.js' %}" charset = "utf-8"></script>
+
+    <!-- CSS templates --> 
+    <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/skeleton.css' %}" media = "all" />
+    <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/normalize.css' %}" media = "all" />    
+
+    <!-- bower -->
+    <!-- Additional CSS -->
+    <style>
+
+    .links {
+    stroke: #000;
+    stroke-opacity: 0.2;
+    }
+
+    .polygons {
+    fill: none;
+    stroke: #000;
+    }
+
+    .polygons :first-child {
+    fill: #f00;
+    }
+
+    .sites {
+    fill: #000;
+    stroke: #fff;
+    }
+
+    .sites :first-child {
+    fill: #fff;
+    }
+
+    table {
+    border-collapse: collapse;
+    border: 2px black solid;
+    font: 12px sans-serif;
+    }
+
+    td {
+    border: 1px black solid;
+    padding: 5px;
+    }
+
+    body {
+    font: 13px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    }
+
+    .bar {
+    fill: steelblue;
+    }
+    
+    .x.axis path {
+    display: none;
+    }    
+
+    
+    div.bar {
+    display: inline-block;
+    width: 20px;
+    height: 75px;
+    background-color: teal;
+    }
+
+    chart1 {
+    }
+
+    .flex-container {
+    flex-direction:row;
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    height: 100px;
+    align-content: center;
+    flex-flow: row wrap;
+    }
+
+    .flex-item {
+    background-color: lightblue;
+    width: 40%;
+    height: 100px;
+    margin: 10px;
+    order: 1;
+    }
+    
+  </style>
+  </head>  
+  <body>
+
+    {% include_container chartcontainer 400 600 %}
+    <svg width = "50" height = "50" >
+      <circle cx="20" cy="25" r="22" fill="blue" stroke="gray" stroke-width="2"/>
+    </svg>
+    <svg width = "50" height = "50" >
+      <circle cx="23" cy="25" r="22" fill="green" stroke="gray" stroke-width="2"/>
+    </svg>
+    <svg width = "50" height = "50" >
+      <circle cx="26" cy="25" r="22" fill="yellow" stroke="gray" stroke-width="2"/>
+    </svg>
+
+    <h1> Introduction </h1>
+    <br />
+    
+    <p>
+      The properties of lipid bilayers \emph{in vivo} has been a subject of much interest due to the large variety of structures it can form. The factors that affect the macrostructure and stability of the bilayer are complex, involving the chemical composition of the head and tailgroups, headgroup area, tailgroup composition, and the hydrophilicity/hydrophobicity of the chemical moities composing the bilayer. Given the complexity of the systems involved, experimental methods such as AFM and fluorescent microscopy have limitations on the level of elucidation possible, and often, the experimental prepartion does not represent the \emph{in vivo} situations, which means that it can only give partial insight into the system. Hence, \emph{molecular simulation} has become a powerful method for measuring properties that is impractical in experimental conditions. As the system can be set and adjusted with fixed parameters (such as pressure, volume, chemical potential), it is possible to use the tools of statistical mechanics to calculate the state variables. In particular, the \emph{free energy} (FE) of processes has become an essential property to calculate.      
+    </p>
+      <!-- Second paragraph -->
+      
+    <p>
+      Among the equilibrium sampling methods, the \emph{umbrella sampling} (US) method has been ubuiquitous in it's use, due to it's intuitive nature and relative simplicity of implementation. The weaknesses of the US method comes from it's high computational cost - the high energy parts of the phase space needs to be sampled adequately with the right overlap between each sampling space, and the discrete sampling each bin of thereaction coordinate requires a large trial and error process to find parts that may require additional and fine grained sampling bins. Alternatively, Jarzynski \cite{JarSMD} demonstrated a revolutionary equality (known in literature as  \emph{Jarzynski's equality} (JE)), which showed that independent of the velocity of the process (hence, can be a non-equilibrium process), the \emph{force-distance} curve along the reaction coordinate can be used to calculate the work, a path-dependent function, to calculate the free energy of the process, an \emph{equlibrium} state function.
+    </p>
+
+    <p>
+      The calculation of the free energy using JE based methods introduced \emph{fast-switching} events as a possible efficient alternative to the US method. Should the validity of the equality be widely applicable, the advantage of the method compared to the US method is obvious - one would not need to sample so many discrete bins along the reaction coordinate, and would allow saving of computational resources and allow the calculation of a much greater range in reaction coordinates. By adapting a moving Hook's potential, Schulten \emph{et al} suggested the \emph{steered molecular dynamics} method \cite{Park} which can constrain the particle/molecule across the reaction coordinate and calculate the work distribution which is required of the calculation of the FE (Hence, we abbreviate the practical implementation of JE as JE-SMD). Previous studies comparing the US and JE-SMD have established that the SMD method can give comparable results to the US method for an accurate estimate of the PMF, depending on the velocity chosen for the moving harmonic potential. However, evidence has also arisen which also suggests that sampling issues arise when implementing the method to complex many body systems.
+    </p>
+    
+    <h2>Simulated Systems</h2> 
+    <p>
+      Forcefield parameters - Each simulation was run with the <a href="http://lammps.sandia.gov/"> <em>LAMMPS</em> molecular dynamics package</a>. The ELBA biomolecule mixed resolution CG-AA MD-forcefiled was provided from the research group of Mario Orsi and Johnathan Essex.
+      
+      <!-- Need to explain which groups are coarse grained and which groups are all-atomic -->
+      
+      The AA-CG compatibility of ELBA allows an arsenal of explicit FF potentials to be used in combination with CG-lipid forcefield.
+      <br \>
+      
+      {% latexify 'U_{ij}^{LJ} = (\frac{\sigma}{r_{ij}})' math_inline=True %}
+            
+    </p>
+    
+    <font size="3" color="red">The effect of `hairy' or ligand functionalized NPs as a potential vector for drug molecules have been studied endlessly between meany research groups. The effect of Hairy NPs on the heterogeneity, such as the line tension between the components, has not been a subject of study. Whic h is suprising, given the known effect of nanoparticles on the line tension betweem heterogenous components. </font>
+    <br />
+    <br />
+ 
+    <table>
+      <tr bgcolor = "silver">
+	<td> PMF Calculation Method </td><td> Constant Velocity</td>
+	<td> Number of Samples (N)</td>
+      </tr>
+ 
+      <tr><td>SMD-JS</td><td>{% latexify '5 \times 10^{-6}' math_inline=True %}  <span>&#8491;</span>  {% latexify 'fs^{-1}' math_inline=True %}'</td><td bgcolor="pink"> 20 </td></tr>
+      <tr><td>SMD-JS</td><td>{% latexify '8 \times 10^{-6}' math_inline=True %}  <span>&#8491;</span> {% latexify 'fs^{-1}' math_inline=True %} </td><td bgcolor="pink"> 20 </td></tr>
+      <tr><td>SMD-JS</td><td>{% latexify '8 \times 10^{-7}' math_inline=True %}  <span>&#8491;</span> {% latexify 'fs^{-1}' math_inline=True %}</td><td bgcolor="pink"> 20 </td></tr>
+
+    </table>
+    <br />
+    <p>
+      The Umbrella Sampling simulations are not continuous but a series of hook's potential simulations along the reaction coordinate. Hence,
+      the Constant Velocity part is omitted.
+    </p>
+    <br />
+    
+    <table>
+      <tr bgcolor = "silver">
+	<td> PMF Calculation Method </td><td> Constant Velocity</td>
+	<td> Number of Windows (N)</td>
+      </tr>
+      
+      <tr><td>US</td><td> - </td><td bgcolor="pink"> 30 </td></tr>
+      <tr><td>US</td><td> - </td><td bgcolor="pink"> 30 </td></tr>
+      <tr><td>US</td><td> - </td><td bgcolor="pink"> 30 </td></tr>
+    </table>
+
+
+
+    <br />    
+
+    This research could help understand how to better to use surface decorations to
+    achieve efficient pulmonary entry, which may provide useful guidelines for
+    design of nano-based platforms for inhaled drug delivery
+
+
+    <figure>
+      <img
+	 src="{% static 'ScienceBlog/images/JEslower.png'  %} "
+	 alt="Raw Jarzynski equality" width="304" height="228">
+    </figure>
+    <p></p>
+    <!-- Figure with figcaption -->
+    <figure>
+      <img
+	 src="{% static 'ScienceBlog/images/FINALslower.png'  %} "
+	 alt="An awesome picture" width="304" height="228">
+      <figcaption>Fig 1. Jarzynski equality interpretation and the second order expansion term </figcaption>
+    </figure>
+    <p></p>
+
+    <figure>
+      <img
+	 src="{% static 'ScienceBlog/images/AWslower.png'  %} "
+	 alt="Raw Jarzynski equality" width="304" height="228">
+    </figure>
+    <p></p>
+    <!-- Figure with figcaption -->
+    <figure>
+      <img
+	 src="{% static 'ScienceBlog/images/DWslower.png'  %} "
+	 alt="An awesome picture" width="304" height="228">
+      <figcaption>Fig 2. Averaged work and the dissipated work terms </figcaption>
+    </figure>
+    <p></p>
+
+    
+    <script>
+    ReactDOM.render(<h1>Hello World</h1>, document.getElementById('root'));    
+    </script>
+    
+    <script>
+      
+      // This script can be used to reference multiple
+      // authors for the Beckypaper
+
+      var Paper1 = new AcademicPaper('Sang', 1988, 'PCCP');
+      document.write('<p>');
+	document.write(Paper1.name +  ' ' + Paper1.paper);
+	document.write('</p>');
+
+    </script>
+    
+    Pulmonary nanodrug delivery is an emerging concept espeically for targeted therapy of lung cancer.
+    The equation of importance is:
+    
+    {% latexify 'c = \pm\sqrt{a^2 + b^2}' math_inline=True %}
+    <br />
+
+    {% latexify '\iint_V \mu(u,v) \,du\,dv' math_inline=True %}
+    <chart1></chart1>
+
+    <!-- .container is main centered wrapper -->
+    <div class="container">    
+      <!-- columns should be the immediate child of a .row -->
+      <div class="row">
+	<div class="one column">One</div>
+	<div class="eleven columns">Eleven</div>
+      </div>
+      
+      <!-- just use a number and class 'column' or 'columns' -->
+      <div class="row">
+	<div class="two columns">Two</div>
+	<div class="ten columns">Ten</div>
+      </div>
+
+      <!-- there are a few shorthand columns widths as well -->
+      <div class="row">
+	<div class="one-third column">1/3</div>
+	<div class="two-thirds column">2/3</div>
+      </div>
+
+      <div class="row">
+	<div class="one-half column">1/2</div>
+	<div class="one-half column">1/2</div>
+      </div>
+    </div>
+
+    
+    <figure>
+      <img
+	 src="{% static 'ScienceBlog/images/tolueneUS.png'  %} "
+	 alt="Raw Jarzynski equality" width="304" height="228">
+    </figure>
+    <!-- Figure with figcaption -->
+    <figure>
+      <img
+	 src="{% static 'ScienceBlog/images/fullereneUS.png'  %} "
+	 alt="An awesome picture" width="304" height="228">
+      <figcaption>Fig 3. Umbrella Sampling PMFs for the toluene and fullerene respectively</figcaption>
+    </figure>
+    <p></p>
+
+  <script>
+   
+    var ar1 = [];
+    var ar2 = [];
+    var ar3 = [];
+    var ar4 = [1,2,3,4,5,6];
+  </script>
+  
+  {% for value1, value2, value3 in list_of_values %}
+  <script>      
+    var a = "{{value1}}";
+    var b = "{{value2}}";
+    var c = "{{value3}}";
+    ar1.push(a);
+    ar2.push(b);
+    ar3.push(c);
+  </script>
+  {% endfor %}
+  <!-- A simple javascript to zip the arrrays together -->
+  <script>    
+  </script>
+
+  <script>
+   
+    document.write('<p>');
+      for (var i = 0; i < ar1.length; i++) {
+	document.write(ar1[i] + ' ' + ar2[i] + ' ' + ar3[i]);
+	}
+
+    document.write('&nbsp;');
+    document.write('&nbsp;');
+    document.write('</p>');
+
+  </script>  
+    
+  <h4> Communication as part of science </h4>
+
+  Scientific problems are tackled by the method of investgation
+ 
+  <script>
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+    /*
+    * value accessor - returns the value to encode for a given data object.
+    * scale - maps value to a visual display encoding, such as a pixel position.
+    * map function - maps from data value to display value
+    * axis - sets up axis
+    */
+    
+    // setup x
+    var xValue = function(d) { return d.Calories;}, // data -> value
+	xScale = d3.scale.linear().range([0, width]), // value -> display
+	xMap = function(d) { return xScale(xValue(d));}, // data -> display
+	xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+	
+	// setup y
+	var yValue = function(d) { return d["Protein (g)"];}, // data -> value
+	yScale = d3.scale.linear().range([height, 0]), // value -> display
+	yMap = function(d) { return yScale(yValue(d));}, // data -> display
+	yAxis = d3.svg.axis().scale(yScale).orient("left");
+	
+	// setup fill color
+	var cValue = function(d) { return d.Manufacturer;},
+	color = d3.scale.category10();
+	
+	// add the graph canvas to the body of the webpage
+	var svg = d3.select("body").append("svg")
+	.attr("width", width + margin.left + margin.right)
+	.attr("height", height + margin.top + margin.bottom)
+	.append("g")
+	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+	// add the tooltip area to the webpage
+	var tooltip = d3.select("body").append("div")
+	.attr("class", "tooltip")
+	.style("opacity", 0);
+
+	// load data
+	d3.csv("{% static 'ScienceBlog/csv/cereal.csv' %}", function(error, data) {
+	
+	// change string (from CSV) into number format
+	data.forEach(function(d) {
+	d.Calories = +d.Calories;
+	d["Protein (g)"] = +d["Protein (g)"];
+	//    console.log(d);
+	});
+	
+	// don't want dots overlapping axis, so add in buffer to data domain
+	xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
+	yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
+	
+	// x-axis
+	svg.append("g")
+	.attr("class", "x axis")
+	.attr("transform", "translate(0," + height + ")")
+	.call(xAxis)
+	.append("text")
+	.attr("class", "label")
+	.attr("x", width)
+	.attr("y", -6)
+	.style("text-anchor", "end")
+	.text("Calories");
+	
+	// y-axis
+	svg.append("g")
+	.attr("class", "y axis")
+	.call(yAxis)
+	.append("text")
+	.attr("class", "label")
+	.attr("transform", "rotate(-90)")
+	.attr("y", 6)
+	.attr("dy", ".71em")
+	.style("text-anchor", "end")
+	.text("Protein (g)");
+	
+	// draw dots
+	svg.selectAll(".dot")
+	.data(data)
+	.enter().append("circle")
+	.attr("class", "dot")
+	.attr("r", 3.5)
+	.attr("cx", xMap)
+	.attr("cy", yMap)
+	.style("fill", function(d) { return color(cValue(d));})
+	.on("mouseover", function(d) {
+	tooltip.transition()
+	.duration(200)
+	.style("opacity", .9);
+	tooltip.html(d["Cereal Name"] + "<br/> (" + xValue(d)
+	+ ", " + yValue(d) + ")")
+	.style("left", (d3.event.pageX + 5) + "px")
+	.style("top", (d3.event.pageY - 28) + "px");
+	})
+	.on("mouseout", function(d) {
+	tooltip.transition()
+	.duration(500)
+	.style("opacity", 0);
+	});
+
+	// draw legend
+	var legend = svg.selectAll(".legend")
+	.data(color.domain())
+	.enter().append("g")
+	.attr("class", "legend")
+	.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+	// draw legend colored rectangles
+	legend.append("rect")
+	.attr("x", width - 18)
+	.attr("width", 18)
+	.attr("height", 18)
+	.style("fill", color);
+
+	// draw legend text
+	legend.append("text")
+		.attr("x", width - 24)
+	.attr("y", 9)
+		.attr("dy", ".35em")
+		.style("text-anchor", "end")
+		.text(function(d) { return d;})
+	});
+
+  </script>
+
+<!-- The form is defined in HTML as a collection of elements inside <form> </form> tags, containing at least one input 
+     element of type "submit"   -->
+
+<!-- Consider the most simple html form --> 
+
+<div class="footer">
+  <form action="/your-name/" method="post">
+    <label for="your_name">Your name: </label>
+    <input id="your_name" type="text" name="your_name" value="{{ current_name }}">  <!-- Insert value for the your_name field -->
+    <input type="submit" value="OK">
+  </form>
+</div>
+
+<!-- 
+     The submit input will be displayed as a button that can be pressed by the user to upload the data
+     in all the other input elements in the form to the server. The POST method should always be used if the data is going to result in a change to the server's database, 
+     
+  -->
+
+<!-- How does Django handle the form process? -->
+
+  </body>
+
+  <!-- LaTeX footer -->
+  
+  {% include "latexify/scripts.html" %}
+</html>

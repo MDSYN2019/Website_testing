@@ -1,0 +1,349 @@
+{% load latexify %}
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> Musings on molecular dynamics work </title>  
+
+    <!-- Allow loading from Django static files -->
+    {% load static %}
+    <!-- LaTeX typesetting in Django -->
+    {% include 'latexify/stylesheets.html' %}
+
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.csv.js"></script>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.time.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>	
+
+    <!-- REACT.JS -->
+    <script src="https://fb.me/react-15.0.1.js"></script>
+    <script src="https://fb.me/react-dom-15.0.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script type="text/javascript" src="{% static 'ScienceBlog/js/papers.js' %}" charset = "utf-8"></script>
+
+    <!-- External JS -->
+    <script type="text/javascript" src="{% static 'ScienceBlog/js/bard3.js' %}" charset = "utf-8"></script>
+
+    <!-- CSS templates -->
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/skeleton.css' %}" media = "all" />
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/normalize.css' %}" media = "all" /> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/bootstrap.min.css' %}" media = "all" />
+    <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/blog-post.css' %}" media = "all" />
+
+    <!-- paper.js -->
+    <script type="text/javascript" src="{% static 'ScienceBlog/js/Paper/dist/paper-full.js' %}" charset = "utf-8"></script>
+
+    <!-- Additional CSS -->
+    <style>
+      
+      .imgContainer
+      {
+      float:left;
+      }
+      
+      .links {
+      stroke: #000;
+    stroke-opacity: 0.2;
+      }
+      
+      .polygons {
+    fill: none;
+    stroke: #000;
+    }
+
+    .polygons :first-child {
+    fill: #f00;
+    }
+
+    .sites {
+    fill: #000;
+    stroke: #fff;
+    }
+
+    .sites :first-child {
+    fill: #fff;
+    }
+
+    table {
+    border-collapse: collapse;
+    border: 2px black solid;
+    font: 12px sans-serif;
+    }
+
+    td {
+    border: 1px black solid;
+    padding: 5px;
+    }
+
+    body {
+    font: 15px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    }
+    
+    .x.axis path {
+    display: none;
+    }    
+    
+    .bar {
+    fill: steelblue;
+    }
+
+    div.bar {
+    display: inline-block;
+    width: 20px;
+    height: 75px;
+    background-color: teal;
+    }
+
+    chart1 {
+    }
+
+    .flex-container {
+    flex-direction:row;
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    height: 100px;
+    align-content: center;
+    flex-flow: row wrap;
+    }
+
+    .flex-item {
+    background-color: lightblue;
+    width: 40%;
+    height: 100px;
+    margin: 10px;
+    order: 1;
+    }
+    </style>
+
+    
+  </head>  
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+	<a class="navbar-brand" href="#">S. Y. Noh</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" a\
+		ria-expanded="false" aria-label="Toggle navigation">
+	  <span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarResponsive">
+	  <ul class="navbar-nav ml-auto">
+	    <li class="nav-item active">
+	      <a class="nav-link" href="/Home/">Home
+		<span class="sr-only">(current)</span>
+	      </a>
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" href="#">About</a>
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" href="#">Services</a>
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" href="#">Trivia</a>
+	    </li>
+	  </ul>
+	</div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+      
+      <div class="row">
+	
+        <!-- Post Content Column -->
+        <div class="col-lg-8">
+
+	  <h1> Working with GROMACS - the simulation of mixed bilayers with gold functionalized nanoparticles </h1>
+	  </br>
+	  
+	  As part of the PhD, I have been working on designing a surface-functionalized nanoparticle - nanoparticles where one can
+	  control the hydrophobiciity of the surface with different anisotropies.
+	  
+	  With an increasing technological capability for modelling biophysical systems, molecular simulation techniques has been used as a powerful technique to provide insights and evidence into biophysical systems often too complex to analyse experimentally. Amongst the analysis, <i>molecular dynamics </i> (MD) has been used in conjunction with advancing technological aspects to study lipid bilayers system, with proteins, in all-atomic (AA) and coarse-grained (CG) systems.
+	  
+	  <!-- Author -->
+          <p class="lead">
+            by
+            <a href="#">S. Y. Noh</a>
+          </p>
+          <hr>
+
+          <!-- Date/Time -->
+          <p>Posted on 25th August, 2017 at 20:00 PM</p>
+          <hr>
+
+          <!-- Preview Image -->
+          <img class="img-fluid rounded" src="{% static 'ScienceBlog/images/placeholder.png' %}" height="200" width="200" alt="">
+          <hr>
+	  
+    <!-- <h2> Brief explanation of the Fourier Transform </h2> -->
+    <h2>Introduction </h2>
+
+    Nanoparticles (NPs) with self-assembled monolayers (SAMs) on its surface has been an area of active research due to their dynamic
+    surface and the flexibility in modifying the surface ligands to suit the purpose at hand.
+    </br>
+    </br>
+	  <p>
+	    Gkeka <em>et al</em> has demonstrated that with SAM-NPs, translocation into the bilayer interior did not occur even after microseconds of simulations. Therefore, in this experiement, we started with a SAM-NP embedded mixed bilayer to observe its effects onto the bilayer composition and structure. They have demonstrated that the NP rearranges the ligands to maximise the steric contact between the hydrophilic components of the bilayer and the NP, and the hydrophobic interior of the bilayer itself.
+	  </p> 
+	  
+	  
+	  <figure>
+	    <img src="{% static 'ScienceBlog/images/DPPCDPPECHOLNP.png' %}" alt="Coarse grained fullerene representation" width="200" height="200">
+	    <figcaption> Fig 1. - Schematic of the Surface functionalized nanoparticle (NP) - here, we have used the MARTINI model to represent the NP - where the hydrophobic C3 bead has been allocated in the inner layer of the NP, while the charged Qa model has been used for the upper and lower charged layers
+	    </figcaption> 
+	  </figure>
+	  
+	  <figure>
+	    <div class="image123">
+	      <div class="imgContainer">
+		<img src="{% static 'ScienceBlog/images/DPPCDUPCCHOLNP.png' %}" height="200" width="200"/>
+		<p>(a)</p>
+	      </div>
+	      <div class="imgContainer">
+		<img class="middle-img" src="{% static 'ScienceBlog/images/DPPCDUPCCHOLNPside.png' %}" height="100" width="200"/>
+		<p>(b)</p>
+	      </div>
+	    </div>
+	    <figcaption> Fig 1. - Schematic of the surface functionalized nanoparticle (NP) - here, we have used the MARTINI model to represent the NP - where the hydrophobic C3 bead has been allocated in the inner layer of the NP, while the charged Qa model has been used for the upper and lower charged layers </figcaption>
+	  </figure>
+
+	  <br />
+	  <br />
+	  <br />
+	  <br />
+	  <br />
+
+	  
+	    <figure>
+	    <div class="image123">
+	      <div class="imgContainer">
+		<img src="{% static 'ScienceBlog/images/000.png' %}" height="200" width="200"/>
+		<p>(a)</p>
+	      </div>
+	      <div class="imgContainer">
+		<img class="middle-img" src="{% static 'ScienceBlog/images/200_half.png' %}" height="200" width="200"/>
+		<p>(b)</p>
+	      </div>
+	    </div>
+	    <figcaption> Fig 2. - Schematic of the multiple Surface functionalized nanoparticles coagulating near the unsaturated regions of the mixed bilayer
+	    </figcaption>
+	    </figure>
+	    
+	  <br />
+	  <br />
+	  <br />
+	  <br />
+	  <br />
+	  <br />
+
+	  <section>
+	    <br />
+	    <h2> Preparation of the bilayer/NP</h2>
+	    <br />
+	    <br />
+	    I've found many useful simulation videos regarding MD simulations online - however, the Kindt group has kindly provided
+	    the videos which I consider the most insightful:
+	    <br />
+	    <br />
+	    <!-- Bilayer Simulation Video -->
+	    <iframe width="300" height="215" src="https://www.youtube.com/embed/ckLQ_5UH7K0"> </iframe>  
+	    <br />
+	    <br />
+	    To build the model of the simulation, we used the <i>MARTINI</i> CG forcefield (MARTINI-FF)  was used to model the mixed bilayer and to build the nanoparticle, and Gromacs-4.5.4 was used for running the simulation. To build the initial configurations of the bilayer, the INSANE lipodomics (INSert membraNE}) was used to produce two mixed bilayer systems.
+	    
+      <!-- Molecular Mechanics Equations -->
+      
+      <!-- 
+	   The bond potential is described by the following equation:
+	   
+	   {% latexify  '{V_{b} = \frac{1}{2}K_{b}(d_{ij}- d_{b})^{2}}' math_inline=True %}
+	   
+	   <br />
+      <br />
+      
+      {% latexify '{V_{a} = \frac{1}{2}\left[cos() - cos() \right]}' math_inline=True %}
+      
+      <br />
+      <br />
+
+      {% latexify '{V_{d} = K_{d}\left[1 + cos() \right]}' math_inline=True %}
+
+      <br />
+      <br />
+      
+      {% latexify '{V_{id} = K_{id}()}' math_inline=True %}
+
+      <br />
+      <br />
+      -->
+
+      <br />
+      <br />
+	    
+      
+      <h1> Fourier Transforms - how to calculate the power spectrum for the bilayer </h1>
+
+      <!-- Author -->
+    <p class="lead">
+      by
+      <a href="#">S. Y. Noh</a>
+    </p>
+    <hr>
+    
+    <!-- Date/Time -->
+    <p>Posted on 10th August, 2017 at 20:00 PM</p>
+    <hr>
+
+    All mathematicians and engineers have a solid understanding of the <em>Fourier Transform</em> - where one can
+    divide any periodic and non-periodic function into real sinusoid functions or use the Eulers identity to
+    calculate the exponential equivalent.
+      
+    
+    The Fourier-based method can divide the fluctuation motion into two parts:
+    
+    <ul style="list-style-type:disc">
+      <li>A pure undulation spectrum to {% latexify 'q^{-4}' math_inline=True %} that dominates the small-q regime</li>
+      <li>A molecular density structure factor contribution that dominates in the large-q regime</li>
+    </ul> 
+    
+    The height-height undulation spectrum is shown in the following equation:
+    <br />
+    <br />           
+    {% latexify '{\langle|{h_{q}}|\rangle}' math_inline=True %} = {% latexify '\frac{k_{B}T}{A[{\kappa}q^{4} + \gamma{q^{2}}]}' math_inline=True %}
+    <br />
+    <br />
+   
+    Fowler et al managed to make a code of this which has been generously provided. From this, we can backtrack and work out
+    the theory behind implementing this algorithm.
+    
+    
+      
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'ScienceBlog/js/jquery.min.js' %}"></script>
+    <script src="{% static 'ScienceBlog/js/popper.min.js' %}"></script>
+    <script src= "{% static 'ScienceBlog/js/bootstrap.min.js' %}"></script>
+
+  </body>
+  
+</html>
+{% include "latexify/scripts.html" %}

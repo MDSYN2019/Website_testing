@@ -1,0 +1,344 @@
+{% load latexify %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Musings on MD work</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/blog-post.css" rel="stylesheet">
+
+        {% load static %}
+    <!-- LaTeX typesetting in Django -->
+    {% include 'latexify/stylesheets.html' %}
+
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.csv.js"></script>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.time.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>	
+
+    <!-- REACT.JS -->
+    <script src="https://fb.me/react-15.0.1.js"></script>
+    <script src="https://fb.me/react-dom-15.0.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script type="text/javascript" src="{% static 'ScienceBlog/js/papers.js' %}" charset = "utf-8"></script>
+
+    <!-- External JS -->
+    <script type="text/javascript" src="{% static 'ScienceBlog/js/bard3.js' %}" charset = "utf-8"></script>
+
+    <!-- CSS templates -->
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/skeleton.css' %}" media = "all" />
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/normalize.css' %}" media = "all" /> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/bootstrap.min.css' %}" media = "all" />
+    <link rel="stylesheet" type="text/css" href="{% static 'ScienceBlog/css/blog-post.css' %}" media = "all" />
+
+    <!-- paper.js -->
+    <script type="text/javascript" src="{% static 'ScienceBlog/js/Paper/dist/paper-full.js' %}" charset = "utf-8"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"> Sang's Simulation Diary and Ramblings </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <div class="row">
+
+        <!-- Post Content Column -->
+        <div class="col-lg-8">
+
+          <!-- Title -->
+          <h1 class="mt-4">
+	  <h1> Working with GROMACS - the simulation of mixed bilayers with gold functionalized nanoparticles </h1>
+
+          <!-- Author -->
+          <p class="lead">
+            by
+            <a href="#"> S. Y. Noh </a>
+          </p>
+
+          <!-- Preview Image -->
+          <img class="img-fluid rounded" src="{% static 'ScienceBlog/images/half_side.png' %} " width="900" height="300">
+
+	  
+	  I've found many useful simulation videos regarding MD simulations online - however, the Kindt group has kindly provided
+	  the videos which I consider the most insightful:
+	  <br />
+	  <br />
+	  <!-- Bilayer Simulation Video -->
+	  <iframe width="300" height="215" src="https://www.youtube.com/embed/ckLQ_5UH7K0"> </iframe>  
+	  <br />
+	  <br />
+	 
+	  <p>As part of the PhD, I have been working on designing a surface-functionalized nanoparticle - nanoparticles where one can
+	  control the hydrophobiciity of the surface with different anisotropies.</p>
+	  
+	<p>  With an increasing technological capability for modelling biophysical systems, molecular simulation techniques has been used as a powerful technique to provide insights and evidence into biophysical systems often too complex to analyse experimentally. Amongst the analysis, <i>molecular dynamics </i> (MD) has been used in conjunction with advancing technological aspects to study lipid bilayers system, with proteins, in all-atomic (AA) and coarse-grained (CG) systems. </p>
+	  
+	    <h2>Introduction </h2>
+	    
+	    <p>Nanoparticles (NPs) with self-assembled monolayers (SAMs) on its surface has been an area of active research due to their dynamic surface and the flexibility in modifying the surface ligands to suit the purpose at hand. </p>
+
+	  <p>Gkeka <em>et al</em> has demonstrated that with SAM-NPs, translocation into the bilayer interior did not occur even after microseconds of simulations. Therefore, in this experiement, we started with a SAM-NP embedded mixed bilayer to observe its effects onto the bilayer composition and structure. They have demonstrated that the NP rearranges the ligands to maximise the steric contact between the hydrophilic components of the bilayer and the NP, and the hydrophobic interior of the bilayer itself. </p> 
+	  
+	  <figure>
+	    <div class="image123">
+	      <div class="imgContainer">
+		<img src="{% static 'ScienceBlog/images/DPPCDUPCCHOLNP.png' %}" height="200" width="200"/>
+		<p>(a)</p>
+	      </div>
+	      <div class="imgContainer">
+		<img class="middle-img" src="{% static 'ScienceBlog/images/DPPCDUPCCHOLNPside.png' %}" height="100" width="200"/>
+		<p>(b)</p>
+	      </div>
+	    </div>
+	    <figcaption> Fig 1. - Schematic of the surface functionalized nanoparticle (NP) - here, we have used the MARTINI model to represent the NP - where the hydrophobic C3 bead has been allocated in the inner layer of the NP, while the charged Qa model has been used for the upper and lower charged layers </figcaption>
+	  </figure>
+	    
+	  	      
+	  <figure>
+	    <tr>
+	      <td id="toAlign" colspan="5">
+		<img src="{% static 'ScienceBlog/images/000_half.png' %} " width="228" height="228" />
+		<img src="{% static 'ScienceBlog/images/100_half.png'  %} " width="228" height="228" />
+		<img src="{% static 'ScienceBlog/images/200_half.png'  %} " width="228" height="228" />
+		<img src="{% static 'ScienceBlog/images/300_half.png'  %} " width="228" height="228" />
+	      </td>
+	    </tr>
+	    <figcaption>Fig 3:</figcaption>
+	  </figure>
+	  
+	  <figure>
+	    <tr>
+	      <td id="toAlign" colspan="5">
+		<img src="{% static 'ScienceBlog/images/000_JANUS.png' %} " width="228" height="228" />
+		<img src="{% static 'ScienceBlog/images/100_JANUS.png'  %} " width="228" height="228" />
+		<img src="{% static 'ScienceBlog/images/200_JANUS.png'  %} " width="228" height="228" />
+		<img src="{% static 'ScienceBlog/images/300_JANUS.png'  %} " width="228" height="228" />
+	      </td>
+	    </tr>
+	    <figcaption>Fig 4:</figcaption>
+    </figure>
+	  
+	  
+	  <figure>
+	    <tr>
+	      <td id="toAlign" colspan="5">
+		<img src="{% static 'ScienceBlog/images/half_side.png' %} " width="320" height="130" />
+		<img src="{% static 'ScienceBlog/images/JANUS_side_200.png'  %}" width="320" height="150" />
+	      </td>
+	    </tr>
+	    <figcaption>Fig 5:</figcaption>
+	  </figure>
+	  <hr>
+	  
+          <!-- Post Content -->
+          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?</p>
+	  
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
+
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
+
+          <blockquote class="blockquote">
+            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+            <footer class="blockquote-footer">Someone famous in
+              <cite title="Source Title">Source Title</cite>
+            </footer>
+          </blockquote>
+
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
+
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
+
+          <hr>
+
+	  <!-- Blog Post -->
+	  <div class="card mb-4">
+	    <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+	    <div class="card-body">
+	      <h2 class="card-title">Post Title</h2>
+	      <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
+	     <a href="#" class="btn btn-primary">Read More &rarr;</a>
+	    </div>
+	    <div class="card-footer text-muted">
+	      Posted on January 1, 2017 by
+	      <a href="#">Start Bootstrap</a>
+	    </div>
+	    </div>
+
+
+	  
+	  
+          <!-- Comments Form -->
+          <div class="card my-4">
+            <h5 class="card-header">Leave a Comment:</h5>
+            <div class="card-body">
+              <form>
+                <div class="form-group">
+                  <textarea class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Single Comment -->
+          <div class="media mb-4">
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div class="media-body">
+              <h5 class="mt-0">Commenter Name</h5>
+              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            </div>
+          </div>
+
+          <!-- Comment with nested comments -->
+          <div class="media mb-4">
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div class="media-body">
+              <h5 class="mt-0">Commenter Name</h5>
+              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+
+              <div class="media mt-4">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media-body">
+                  <h5 class="mt-0">Commenter Name</h5>
+                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+              </div>
+
+              <div class="media mt-4">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media-body">
+                  <h5 class="mt-0">Commenter Name</h5>
+                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+          <!-- Search Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Search</h5>
+            <div class="card-body">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                  <button class="btn btn-secondary" type="button">Go!</button>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categories Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Categories</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                      <a href="#">Python</a>
+                    </li>
+                    <li>
+                      <a href="#">Chemistry</a>
+                    </li>
+                    <li>
+                      <a href="#">Algorithms</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                      <a href="#">Molecular Dynamics</a>
+                    </li>
+                    <li>
+                      <a href="#"> Rust </a>
+                    </li>
+                    <li>
+                      <a href="#"> C++ </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Side Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Side Widget</h5>
+            <div class="card-body">
+              You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  </body>
+
+</html>

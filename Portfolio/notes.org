@@ -1,0 +1,33 @@
+* different apps
+
+
+#+begin_src python
+python manage.py startapp core 
+#+end_src python
+
+The settings.py is where we save out the project settings. Django will only know to include our core app in the project
+when we register it.
+
+Core has the following structure:
+
+.
+├── admin.py
+├── apps.py
+├── __init__.py
+├── migrations
+│   └── __init__.py
+├── models.py
+├── tests.py
+└── views.py
+
+--
+
+I have put the production key in an os environmental variable
+
+
+views.py - A view functon, or view for short, is a python function that takes a web request and returns a web response. This response can be for the HTML
+contents of a web page or a redirect, or a 404 error, or an XML document. We can create our first view.
+
+
+templates - We will need a HTML template to render on a browser. Being a web framework, Django needs a convenient way to generate HTML dynamically. The most common
+            approach relies on templates. A template contains the static parts of the desired HTML output. 

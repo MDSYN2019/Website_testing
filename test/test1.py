@@ -25,8 +25,8 @@ approach.
 from django.test import TestCase
 from myapp.models import Animal
 
-class AnimalTestCase(TestCase): # Inheriting from Testcase
-	def setUp(self):
-		Animal.objects.create(name = "lion", sound = "roar")
-		Animal.objects.create(name = "cat", sound = "meow")
-		
+
+class AnimalTestCase(TestCase):  # Inheriting from Testcase
+    def setUp(self):
+        Animal.objects.create(name="lion", sound="roar")
+        Animal.objects.create(name="cat", sound="meow")
